@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+@section featured {
+<div>This is only a test in a featured</div> 
+}
+ 
+
+   
+<input id="msg" type="text" />    
+<input id="broadcast" type="button" value="Submit" />    
+<ul id="messages">
+
+</ul>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.signalR-0.5.3.min.js")"></script>
+<script type="text/javascript">
+    $(function () {
+        var connection = $.connection('echo');
+        connection.received(function (data) {
+            $('#messages').append('<li>' + data + '</li>');
+        });
+        connection.start();
+        $("#broadcast").click(function () {
+            connection.send($('#msg').val());
+        });
+    });
+
+</script> 
