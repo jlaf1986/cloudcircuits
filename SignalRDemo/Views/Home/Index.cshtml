@@ -6,16 +6,16 @@
 <div>This is only a test in a featured</div> 
 }
  
-
-   
+<!doctype html>
+<html>
+<body>
 <input id="msg" type="text" />    
 <input id="broadcast" type="button" value="Submit" />    
 <ul id="messages">
 
 </ul>
 
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
-<script src="@Url.Content("~/Scripts/jquery.signalR-0.5.3.min.js")"></script>
+
 <script type="text/javascript">
     $(function () {
         var connection = $.connection('echo');
@@ -29,3 +29,7 @@
     });
 
 </script> 
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.signalR-0.5.3.min.js")"></script>
+</body>
+</html>
