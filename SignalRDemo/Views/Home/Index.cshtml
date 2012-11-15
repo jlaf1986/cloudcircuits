@@ -2,26 +2,23 @@
     ViewBag.Title = "Home Page";
     Layout = null;
 }
-@section featured {
-<div>This is only a test in a featured</div> 
-}
  
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <title>Chat Feature Testing for Bizgraph</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
 <body>
-    <h1>Testing broadcasting for bizgraph</h1>
-    <h2>This is sort of a 'chat' room, please feel free to submit any message you want.</h2>
+    <h1>Testing broadcasting code for bizgraph</h1>
+    <h3>This is sort of a 'chat room' that I'm building, <br />leave your message after the tone.  bip.</h3>
 <input id="msg" type="text" />    
 <input id="broadcast" type="button" value="Submit" />   
-    <h2>Messages Received</h2> 
+    <h2>Testing Chat Room</h2> 
 <ul id="messages">
 
 </ul>
@@ -36,7 +33,7 @@
         });
         connection.start();
         $("#broadcast").click(function () {
-            connection.send($('#msg').val());
+            connection.send($('#msg').val() + " sent at " + "@System.DateTime.Now.ToString()" );
         });
     });
 
