@@ -70,26 +70,27 @@
                     chat.invoke('SuscribeMe', 'group1')
                         .done(function ()
                         {
-                            alert('suscription to group 1 was succesful');
+                            alert('your suscription to group 1 was succesful');
                         })
                         .fail(function () { alert('suscription failed'); });
 
                     var myUser = "@User.Identity.Name";
+                    var myCategory = myUser.substring(myUser.length-1);
 
-                    if (myUser == "user2" || myUser == "user3") {
+                    if (myCategory == "2" || myCategory == "3") {
                         chat.invoke('SuscribeMe', 'group2')
                         .done(function ()
                         {
-                            alert('suscription to group 2 was succesful');
+                            alert('your suscription to group 2 was succesful');
                         })
                         .fail(function () { alert('suscription failed'); });
                     }
 
-                    if (myUser == "user3") {
+                    if (myCategory == "3") {
                         chat.invoke('SuscribeMe', 'group3')
                         .done(function ()
                         {
-                            alert('suscription to group 3 was succesful');
+                            alert('your suscription to group 3 was succesful');
                         })
                         .fail(function () { alert('suscription failed'); });
                     }
