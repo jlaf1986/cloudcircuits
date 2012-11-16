@@ -4,8 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using SignalR;
-using SignalRDemo;
+using Microsoft.AspNet.SignalR;
 
 namespace SignalRDemo
 {
@@ -15,8 +14,8 @@ namespace SignalRDemo
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            RouteTable.Routes.MapConnection<MyCustomConnection>("echo", "echo/{*operation}");
-
+            //RouteTable.Routes.MapConnection<MyCustomConnection>("echo", "echo/{*operation}");
+            RouteTable.Routes.MapHubs();
             //routes.MapRoute(
             //            name: "echo",
             //            url: "echo/{*operation}", defaults: new { });
@@ -24,7 +23,7 @@ namespace SignalRDemo
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Notifier", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

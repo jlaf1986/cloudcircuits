@@ -1,0 +1,188 @@
+﻿@{
+    Layout = null;    
+}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Chat Feature Testing for Bizgraph</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+<body>
+    <h1>Testing broadcasting and broadcasting infrastructure code</h1>
+    <h3>Think of this like a chat room <br />leave your message after the tone.  bip.</h3>
+    <div>Please, take in count this, for your username:
+        <br />if ends with 1 you should only be suscribed to group 1
+        <br />if ends with 2 you should be suscribed to group 1 and 2
+        <br />if ends with 3 you should be suscribed to group 1, 2 and 3
+    </div>
+    <div style="clear:both">
+        <br />
+        <div><b>My username: @User.Identity.Name</b></div>
+        <div><input id="message" type="text" style="width:400px; height:20px;" placeholder="what are you thinking?" size="400" /></div>
+    </div>
+     
+    <input id="submit1" type="button" value="Broadcast" />   
+    <input id="submit2" type="button" value="Submit to group 1" />   
+    <input id="submit3" type="button" value="Submit to group 2" />  
+    <input id="submit4" type="button" value="Submit to group 3" />  
+
+@*    <a href="#" id="submit1">Submit to group 1</a>*@
+
+    <div id="main" style="width:100%">
+        <div id="group1" style="background-color:rgba(76, 255, 0, 0.17)">
+            <h2>Notifications</h2>
+            <ul id="messages">
+
+            </ul>
+        </div>
+@*        <div id="group2" style="float:right;width:49%;background-color:rgba(0, 148, 255, 0.17)">
+            <h2>Room#2</h2>
+            <ul id="messages_room2">
+
+            </ul>
+        </div>
+        <div id="group3" style="float:right;width:49%;background-color:rgba(0, 148, 255, 0.17)">
+            <h2>Room#2</h2>
+            <ul id="messages_room2">
+
+            </ul>
+        </div>*@
+    </div>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.8.2.js")" ></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.signalR-1.0.0-alpha2.js")" ></script>   
+    <script type="text/javascript" src="@Url.Content("~/signalr/hubs")" ></script>
+    
+    <script type="text/javascript">
+        $(function () {
+
+
+            var connection = $.hubConnection();
+            var chat = connection.createHubProxy('chat');
+            connection.start()
+                .done(function () {
+                    alert('connection was succesful');
+
+                    chat.invoke('SuscribeMe', 'group1')
+                        .done(function ()
+                        {
+                            alert('suscription to group 1 was succesful');
+                        })
+                        .fail(function () { alert('suscription failed'); });
+
+                    var myUser = "@User.Identity.Name";
+
+                    if (myUser == "user2" || myUser == "user3") {
+                        chat.invoke('SuscribeMe', 'group2')
+                        .done(function ()
+                        {
+                            alert('suscription to group 2 was succesful');
+                        })
+                        .fail(function () { alert('suscription failed'); });
+                    }
+
+                    if (myUser == "user3") {
+                        chat.invoke('SuscribeMe', 'group3')
+                        .done(function ()
+                        {
+                            alert('suscription to group 3 was succesful');
+                        })
+                        .fail(function () { alert('suscription failed'); });
+                    }
+
+
+                })
+                .fail(function () { alert('connection failed'); });
+
+         
+
+            
+            $("#submit1").click(function () {
+              
+                var msg = {
+                    sender: "@User.Identity.Name",
+                       group: "none",
+                       message: $('#message').val()
+                };
+
+                alert('the following broadcasting message is about to be sent=> sender:' + msg.sender + ", group: " + msg.group + ", message: " + msg.message );
+
+                chat.invoke('Broadcast', msg)
+                .done(function () {  })
+                .fail(function () { alert('broadcast failed'); });
+            });
+
+
+            $('#submit2').click(function () {
+               alert('a broadcasting message is about to be sent');
+
+                var msg = {
+                    sender: "@User.Identity.Name",
+                    group: "group1",
+                    message: $('#message').val()
+                };
+
+                alert('the following broadcasting message is about to be sent=> sender:' + msg.sender + ", group: " + msg.group + ", message: " + msg.message);
+
+                chat.invoke('BroadcastToGroup', msg)
+                    .done(function () { /*alert('successful broadcast already sent');*/ })
+                    .fail(function () { alert('broadcast failed'); });
+            });
+
+            $('#submit3').click(function () {
+                alert('a broadcasting message is about to be sent');
+
+                var msg = {
+                    sender: "@User.Identity.Name",
+                    group: "group2",
+                    message: $('#message').val()
+                };
+
+                alert('the following broadcasting message is about to be sent=> sender:' + msg.sender + ", group: " + msg.group + ", message: " + msg.message);
+
+                 chat.invoke('BroadcastToGroup', msg)
+                     .done(function () { /*alert('successful broadcast already sent');*/ })
+                     .fail(function () { alert('broadcast failed'); });
+            });
+
+            $('#submit4').click(function () {
+                alert('a broadcasting message is about to be sent');
+
+                var msg = {
+                    sender: "@User.Identity.Name",
+                    group: "group3",
+                    message: $('#message').val()
+                };
+
+                alert('the following broadcasting message is about to be sent=> sender:' + msg.sender + ", group: " + msg.group + ", message: " + msg.message);
+
+                  chat.invoke('BroadcastToGroup', msg)
+                      .done(function () { /*alert('successful broadcast already sent');*/ })
+                      .fail(function () { alert('broadcast failed'); });
+              });
+
+
+            chat.on('Send', function (notification) {
+               // alert('message received');
+                //$('#messages').append('<li><b>' + m + '</li>');
+                $('#messages').append('<li><b>' + notification.sender + ' from group ' + notification.group + ' says: </b>' + notification.message + '</li>');
+            });
+
+          
+
+
+        });
+
+
+      
+
+
+
+    </script>
+
+</body>
+</html>

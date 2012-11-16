@@ -15,13 +15,24 @@
     </head>
 <body>
     <h1>Testing broadcasting code for bizgraph</h1>
-    <h3>This is sort of a 'chat room' that I'm building, <br />leave your message after the tone.  bip.</h3>
+    <h3>This is sort of a 'chat room' that I'm testing, <br />leave your message after the tone.  bip.</h3>
 <input id="msg" type="text" />    
-<input id="broadcast" type="button" value="Submit" />   
+<input id="broadcast_room1" type="button" value="Submit to room 1" />   
+<input id="broadcast_room2" type="button" value="Submit to room 2" />   
     <h2>Testing Chat Room</h2> 
-<ul id="messages">
+    <div id="main" style="width:100%">
+        <div id="room1" style="float:left;width:49%;background-color:rgba(76, 255, 0, 0.17)">
+            <ul id="messages_room1">
 
-</ul>
+            </ul>
+        </div>
+        <div id="room2" style="float:right;width:49%;background-color:rgba(0, 148, 255, 0.17)">
+             <ul id="messages_room2">
+
+            </ul>
+        </div>
+    </div>
+
       @Scripts.Render("~/bundles/jquery")
     <script src="@Url.Content("~/Scripts/jquery.signalR-0.5.3.min.js")"></script>
 
@@ -29,11 +40,11 @@
     $(function () {
         var connection = $.connection('echo');
         connection.received(function (data) {
-            $('#messages').append('<li>' + data + '</li>');
+            $('#messages_room1').append('<li>' + data + '</li>');
         });
         connection.start();
-        $("#broadcast").click(function () {
-            connection.send($('#msg').val() + " sent at " + "@System.DateTime.Now.ToString()" );
+        $("#broadcast_room1").click(function () {
+            connection.send($('#broadcast_room1').val());
         });
     });
 
