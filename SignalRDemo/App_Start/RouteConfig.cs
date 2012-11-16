@@ -15,7 +15,7 @@ namespace SignalRDemo
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             //RouteTable.Routes.MapConnection<MyCustomConnection>("echo", "echo/{*operation}");
-            RouteTable.Routes.MapHubs();
+            //RouteTable.Routes.MapHubs();
             //routes.MapRoute(
             //            name: "echo",
             //            url: "echo/{*operation}", defaults: new { });
